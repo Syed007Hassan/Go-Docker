@@ -3,10 +3,12 @@ package routes
 import (
 	"database/sql"
 
-	"../controllers"
+	"go-docker/controllers"
 
 	"github.com/gorilla/mux"
 )
+
+// import GetUsers from controllers/testController.go
 
 func RegisterRoutes(db *sql.DB, router *mux.Router) {
 	router.HandleFunc("/users", controllers.GetUsers(db)).Methods("GET")

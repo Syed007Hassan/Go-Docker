@@ -30,7 +30,7 @@ func main() {
 	router := mux.NewRouter()
 
 	//register routes
-	RegisterRoutes(db, router)
+	routes.RegisterRoutes(db, router)
 
 	//start server
 	log.Fatal(http.ListenAndServe(":8000", jsonContentTypeMiddleware(router)))
