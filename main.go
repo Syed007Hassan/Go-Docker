@@ -32,6 +32,9 @@ func main() {
 	//register routes
 	routes.RegisterRoutes(db, router)
 
+	//add logging middleware
+	router.Use(loggingMiddleware)
+
 	//start server
 	log.Fatal(http.ListenAndServe(":8000", jsonContentTypeMiddleware(router)))
 }
@@ -39,6 +42,15 @@ func main() {
 func jsonContentTypeMiddleware(next http.Handler) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Content-Type", "application/json")
+		next.ServeHTTP(w, r)
+	})
+}
+
+func loggingMiddleware(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		// Do stuff here
+		log.Println(r.Method, r.RequestURI)
+		// Call the next handler, which can be another middleware in the chain, or the final handler.
 		next.ServeHTTP(w, r)
 	})
 }
